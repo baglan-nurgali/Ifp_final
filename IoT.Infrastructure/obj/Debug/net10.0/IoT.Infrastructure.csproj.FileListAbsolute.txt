@@ -1,0 +1,17 @@
+C:\Users\User\Documents\ifp\IoT.Infrastructure\bin\Debug\net10.0\IoT.Infrastructure.deps.json
+C:\Users\User\Documents\ifp\IoT.Infrastructure\bin\Debug\net10.0\IoT.Infrastructure.dll
+C:\Users\User\Documents\ifp\IoT.Infrastructure\bin\Debug\net10.0\IoT.Infrastructure.pdb
+C:\Users\User\Documents\ifp\IoT.Infrastructure\bin\Debug\net10.0\IoT.Application.dll
+C:\Users\User\Documents\ifp\IoT.Infrastructure\bin\Debug\net10.0\IoT.Domain.dll
+C:\Users\User\Documents\ifp\IoT.Infrastructure\bin\Debug\net10.0\IoT.Domain.pdb
+C:\Users\User\Documents\ifp\IoT.Infrastructure\bin\Debug\net10.0\IoT.Application.pdb
+C:\Users\User\Documents\ifp\IoT.Infrastructure\obj\Debug\net10.0\IoT.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\User\Documents\ifp\IoT.Infrastructure\obj\Debug\net10.0\IoT.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\ifp\IoT.Infrastructure\obj\Debug\net10.0\IoT.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\User\Documents\ifp\IoT.Infrastructure\obj\Debug\net10.0\IoT.Infrastructure.AssemblyInfo.cs
+C:\Users\User\Documents\ifp\IoT.Infrastructure\obj\Debug\net10.0\IoT.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\ifp\IoT.Infrastructure\obj\Debug\net10.0\IoT.Infr.8DFBFCC7.Up2Date
+C:\Users\User\Documents\ifp\IoT.Infrastructure\obj\Debug\net10.0\IoT.Infrastructure.dll
+C:\Users\User\Documents\ifp\IoT.Infrastructure\obj\Debug\net10.0\refint\IoT.Infrastructure.dll
+C:\Users\User\Documents\ifp\IoT.Infrastructure\obj\Debug\net10.0\IoT.Infrastructure.pdb
+C:\Users\User\Documents\ifp\IoT.Infrastructure\obj\Debug\net10.0\ref\IoT.Infrastructure.dll

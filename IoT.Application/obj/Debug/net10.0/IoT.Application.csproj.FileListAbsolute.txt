@@ -1,0 +1,15 @@
+C:\Users\User\Documents\ifp\IoT.Application\bin\Debug\net10.0\IoT.Application.deps.json
+C:\Users\User\Documents\ifp\IoT.Application\bin\Debug\net10.0\IoT.Application.dll
+C:\Users\User\Documents\ifp\IoT.Application\bin\Debug\net10.0\IoT.Application.pdb
+C:\Users\User\Documents\ifp\IoT.Application\bin\Debug\net10.0\IoT.Domain.dll
+C:\Users\User\Documents\ifp\IoT.Application\bin\Debug\net10.0\IoT.Domain.pdb
+C:\Users\User\Documents\ifp\IoT.Application\obj\Debug\net10.0\IoT.Application.csproj.AssemblyReference.cache
+C:\Users\User\Documents\ifp\IoT.Application\obj\Debug\net10.0\IoT.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\ifp\IoT.Application\obj\Debug\net10.0\IoT.Application.AssemblyInfoInputs.cache
+C:\Users\User\Documents\ifp\IoT.Application\obj\Debug\net10.0\IoT.Application.AssemblyInfo.cs
+C:\Users\User\Documents\ifp\IoT.Application\obj\Debug\net10.0\IoT.Application.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\ifp\IoT.Application\obj\Debug\net10.0\IoT.Appl.FEDC81DC.Up2Date
+C:\Users\User\Documents\ifp\IoT.Application\obj\Debug\net10.0\IoT.Application.dll
+C:\Users\User\Documents\ifp\IoT.Application\obj\Debug\net10.0\refint\IoT.Application.dll
+C:\Users\User\Documents\ifp\IoT.Application\obj\Debug\net10.0\IoT.Application.pdb
+C:\Users\User\Documents\ifp\IoT.Application\obj\Debug\net10.0\ref\IoT.Application.dll

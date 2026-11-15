@@ -1,0 +1,17 @@
+<article class="sensor-card">
+ <div class="card-top"><div class="sensor-symbol @Device.Type.ToString().ToLowerInvariant()">@Icon</div><span class="status-tag @Status.ToString().ToLowerInvariant()"><i></i>@Status</span></div>
+ <div class="sensor-title"><div><h3>@Device.Name</h3><p>@Device.Location</p></div><button class="more">•••</button></div>
+ <div class="reading"><b>@(Reading?.Value.ToString("0.0") ?? "—")</b><span>@Device.Unit</span><small>REAL-TIME VALUE</small></div>
+ <div class="chart"><svg viewBox="0 0 340 82" preserveAspectRatio="none" role="img" aria-label="Recent trend for @Device.Name"><defs><linearGradient id="fill-@Device.Id" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#62c6a8" stop-opacity=".23"/><stop offset="1" stop-color="#62c6a8" stop-opacity="0"/></linearGradient></defs><path d="@Area" fill="url(#fill-@Device.Id)"/><path d="@Line" fill="none" stroke="#48bb98" stroke-width="2.2" vector-effect="non-scaling-stroke"/></svg></div>
+ <div class="card-foot"><span>LAST 60 READINGS</span><button class="text-button" @onclick="()=>OnToggle.InvokeAsync(Device.Id)">@(Status==DeviceStatus.Offline?"Bring online":"Take offline") <span>↗</span></button></div>
+</article>
+@code {
+ [Parameter,EditorRequired] public SensorDevice Device {get;set;}=default!;
+ [Parameter] public SensorReading? Reading {get;set;}
+ [Parameter] public IEnumerable<SensorReading> History {get;set;}=[];
+ [Parameter] public DeviceStatus Status {get;set;}
+ [Parameter] public EventCallback<Guid> OnToggle {get;set;}
+ private string Icon=>Device.Type switch{SensorType.Temperature=>"♨",SensorType.Humidity=>"◒",SensorType.Pressure=>"◉",_=>"ϟ"};
+ private string Line {get{var pts=History.Select(x=>x.Value).ToArray();if(pts.Length==0)return "M0 55 L340 55";var min=pts.Min();var max=pts.Max();var span=Math.Max(max-min,1);return string.Join(" ",pts.Select((v,i)=>$"{(i==0?"M":"L")}{i*340d/Math.Max(pts.Length-1,1):0.0} {72-(v-min)/span*60:0.0}"));}}
+ private string Area=>Line+" L340 82 L0 82 Z";
+}

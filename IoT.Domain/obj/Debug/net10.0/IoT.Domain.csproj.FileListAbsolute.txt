@@ -1,0 +1,11 @@
+C:\Users\User\Documents\ifp\IoT.Domain\bin\Debug\net10.0\IoT.Domain.deps.json
+C:\Users\User\Documents\ifp\IoT.Domain\bin\Debug\net10.0\IoT.Domain.dll
+C:\Users\User\Documents\ifp\IoT.Domain\bin\Debug\net10.0\IoT.Domain.pdb
+C:\Users\User\Documents\ifp\IoT.Domain\obj\Debug\net10.0\IoT.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\ifp\IoT.Domain\obj\Debug\net10.0\IoT.Domain.AssemblyInfoInputs.cache
+C:\Users\User\Documents\ifp\IoT.Domain\obj\Debug\net10.0\IoT.Domain.AssemblyInfo.cs
+C:\Users\User\Documents\ifp\IoT.Domain\obj\Debug\net10.0\IoT.Domain.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\ifp\IoT.Domain\obj\Debug\net10.0\IoT.Domain.dll
+C:\Users\User\Documents\ifp\IoT.Domain\obj\Debug\net10.0\refint\IoT.Domain.dll
+C:\Users\User\Documents\ifp\IoT.Domain\obj\Debug\net10.0\IoT.Domain.pdb
+C:\Users\User\Documents\ifp\IoT.Domain\obj\Debug\net10.0\ref\IoT.Domain.dll

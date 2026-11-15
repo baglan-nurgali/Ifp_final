@@ -1,0 +1,41 @@
+@page "/"
+@rendermode InteractiveServer
+@implements IDisposable
+@inject DashboardStateContainer Dashboard
+@inject ISensorSimulator Simulator
+@inject SensorSimulationWorker Worker
+<PageTitle>Pulse | Sensor operations</PageTitle>
+<div class="dashboard">
+  <header class="topbar"><div class="brand"><span class="brand-icon">P</span><div><strong>PULSE</strong><small>INDUSTRIAL MONITORING</small></div></div><div class="live-pill"><i></i> LIVE STREAM</div><div class="user-chip">OP <span>Operator</span></div></header>
+  <main class="content">
+    <div class="heading"><div><p class="eyebrow">OPERATIONS / OVERVIEW</p><h1>Sensor overview</h1><p class="muted">Live telemetry across your facility</p></div><div class="actions"><span class="connection"><i></i> @(_running ? "Connected" : "Paused")</span><button class="btn" @onclick="OpenThresholds">⚙ Thresholds</button><button class="btn primary" @onclick="ToggleRunning">@(_running ? "Ⅱ  Pause stream" : "▶  Resume stream")</button></div></div>
+    <section class="stats"><div><span>ACTIVE DEVICES</span><b>@Simulator.Devices.Count(d=>Worker.IsDeviceOnline(d.Id))</b><small>of @Simulator.Devices.Count total devices</small></div><div><span>READINGS / MIN</span><b>@(75 * _speed)</b><small>Updated continuously</small></div><div><span>ACTIVE ALERTS</span><b class="@(Dashboard.Alerts.Any(a=>!a.Acknowledged)?"warn":"")">@Dashboard.Alerts.Count(a=>!a.Acknowledged)</b><small>Across all locations</small></div><div><span>UPTIME</span><b>99.98<em>%</em></b><small>Last 30 days</small></div></section>
+    <div class="section-title"><div><h2>Device readings</h2><span>Latest values and 60 point trends</span></div><div class="speed">Simulation <select value="@_speed" @onchange="ChangeSpeed"><option value="1">1×</option><option value="2">2×</option><option value="5">5×</option></select><button class="btn" @onclick="Overheat">♨ Simulate overheat</button></div></div>
+    <section class="device-grid">
+      @foreach(var device in Simulator.Devices){ var readings=ReadingsFor(device.Id); var last=readings.LastOrDefault(); var status=Worker.IsDeviceOnline(device.Id) ? last?.Status ?? device.Status : DeviceStatus.Offline; <SensorCard Device="device" Reading="last" History="readings" Status="status" OnToggle="ToggleDevice" /> }
+    </section>
+    <section class="bottom-grid"><div class="panel alert-panel"><div class="panel-heading"><div><h2>Alert history</h2><span>Threshold events from your devices</span></div><span class="count">@Dashboard.Alerts.Count</span></div>
+      @if(!Dashboard.Alerts.Any()){<div class="empty"><span>✓</span><b>All clear</b><p>No threshold breaches detected</p></div>}else{<div class="alert-list">@foreach(var alert in Dashboard.Alerts.Reverse()){var d=Simulator.Devices.FirstOrDefault(x=>x.Id==alert.DeviceId);<div class="alert-row"><span class="severity @alert.Severity.ToString().ToLowerInvariant()">!</span><div class="alert-message"><b>@alert.Message</b><small>@(d?.Name ?? "Sensor") · @alert.Timestamp.ToLocalTime().ToString("HH:mm:ss")</small></div>@if(!alert.Acknowledged){<button class="btn acknowledge" @onclick="()=>Dashboard.Acknowledge(alert.Id)">Acknowledge</button>}else{<span class="acknowledged">Acknowledged</span>}</div>}</div>}
+    </div><div class="panel controls"><div class="panel-heading"><div><h2>Device controls</h2><span>Simulation and connectivity</span></div><span class="control-icon">⌘</span></div>@foreach(var d in Simulator.Devices){<div class="control-row"><div class="device-dot"></div><div><b>@d.Name</b><small>@d.Location</small></div><button class="toggle @(IsOnline(d.Id)?"on":"")" aria-label="Toggle @d.Name" @onclick="()=>ToggleDevice(d.Id)"><span></span></button></div>}</div></section>
+    <footer>Pulse telemetry <span>·</span> Data refreshes every 800 ms <span>·</span> Local simulation</footer>
+  </main>
+</div>
+@if(_thresholdOpen){<div class="modal-backdrop" @onclick="CloseThresholds"><section class="threshold-modal" @onclick:stopPropagation="true"><div class="panel-heading"><div><h2>Alert thresholds</h2><span>Configure warning and critical ranges</span></div><button class="more" @onclick="CloseThresholds">✕</button></div><label>Device<select @bind="_thresholdDevice"><option value="">Choose a device</option>@foreach(var device in Simulator.Devices){<option value="@device.Id">@device.Name (@device.Unit)</option>}</select></label><div class="threshold-fields"><label>Critical minimum<input type="number" step="0.1" @bind="_criticalMin" /></label><label>Warning minimum<input type="number" step="0.1" @bind="_warningMin" /></label><label>Warning maximum<input type="number" step="0.1" @bind="_warningMax" /></label><label>Critical maximum<input type="number" step="0.1" @bind="_criticalMax" /></label></div><p class="validation">@_thresholdMessage</p><div class="modal-actions"><button class="btn" @onclick="CloseThresholds">Cancel</button><button class="btn primary" @onclick="SaveThresholds">Save thresholds</button></div></section></div>}
+@code {
+ private bool _running=true; private int _speed=1; private IReadOnlyList<SensorReading> _snapshot=[];
+ private bool _thresholdOpen; private string _thresholdDevice=""; private double _criticalMin=45,_warningMin=60,_warningMax=82,_criticalMax=95; private string _thresholdMessage="";
+ private IEnumerable<SensorReading> ReadingsFor(Guid id)=>_snapshot.Where(r=>r.DeviceId==id).TakeLast(60);
+ protected override void OnInitialized(){Dashboard.OnChange+=Changed;_snapshot=Dashboard.Readings;}
+ private void Changed(){_ = InvokeAsync(()=>{_snapshot=Dashboard.Readings;StateHasChanged();});}
+ private void ToggleRunning(){_running=!_running;Worker.SetRunning(_running);}
+ private void ChangeSpeed(ChangeEventArgs e){if(int.TryParse(e.Value?.ToString(),out var speed)){_speed=speed;Worker.SetSpeed(speed);}}
+ private void ToggleDevice(Guid id){var online=!IsOnline(id);DevicesOnline[id]=online;Worker.SetDeviceOnline(id,online);}
+ private bool IsOnline(Guid id)=>DevicesOnline.GetValueOrDefault(id,true);
+ private readonly Dictionary<Guid,bool> DevicesOnline=[];
+ private void ToggleDevice(SensorDevice device)=>ToggleDevice(device.Id);
+ private void OpenThresholds(){_thresholdOpen=true;_thresholdMessage="";}
+ private void CloseThresholds()=>_thresholdOpen=false;
+ private void SaveThresholds(){if(!Guid.TryParse(_thresholdDevice,out var id)){_thresholdMessage="Select a device first.";return;}var rule=new AlertRule(id,_warningMin,_warningMax,_criticalMin,_criticalMax);if(!rule.IsValid){_thresholdMessage="Set finite values where critical min ≤ warning min < warning max ≤ critical max.";return;}if(!Worker.SetRule(rule)){_thresholdMessage="Threshold values are invalid.";return;}_thresholdOpen=false;}
+ private void Overheat()=>Worker.InjectAnomaly();
+ public void Dispose()=>Dashboard.OnChange-=Changed;
+}
